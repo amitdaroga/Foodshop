@@ -1,0 +1,39 @@
+{% extends 'shop_admin/main.html' %}
+{%load static %}
+{% block content %}
+<div class="p-5">
+    <div class="ibox content ">
+        <div class="ibox-body">
+            {% for i in update_obj %}
+            <form class="form-horizontal" action="{% url 'UpdateProduct' pk=i.id %}" method="post" enctype="multipart/form-data" >
+                {% csrf_token %}
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Product Name</label>
+                    <div class="col-sm-9">
+                        <input class="form-control" type="ProductName" name="ProductName" value="{{i.ProductName}}" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Category</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" name="category" style="text-align: center;">
+                            <option value="{{i.ProductCategory}}">{{i.ProductCategory}}</option>
+                            <option value="Vegetables">Vegetables</option>
+                            <option value="Fruits">Fruits</option>
+                            <option value="Dairyproducts">Dairy products</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-11 ml-sm-auto ">
+                        <button class="btn btn-info btn-block" type="submit">Update Product</button>
+                    </div>
+                </div>
+                
+            </form>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

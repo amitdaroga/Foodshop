@@ -1,0 +1,62 @@
+{% extends 'shop_admin/main.html' %}
+{%load static %}
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'Home' %}">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'ProductDetails' %}">Product Details</a>
+        </li>
+        <li class="nav-item">
+            
+            <a class="nav-link disabled" href="{% url 'Logout' %}"><i class="fa fa-power-off"></i>Logout</a>
+        </li>
+      </ul>
+    </div>
+</nav>
+<div>
+<div class="p-5">
+    <form class="form-inline" action="{% url 'search' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label class="sr-only" for="ex-email">Product Name</label>
+        <input class="form-control mb-2 mr-sm-2 mb-sm-0" id="ex-email" type="text" name="ProductName" placeholder="Product Name">
+        <div class="form-group row">
+            <div class="col-sm-9">
+                <select class="form-control" name="category" style="text-align: center;">
+                    <option value="Vegetables">Vegetables</option>
+                    <option value="Fruits">Fruits</option>
+                    <option value="Dairyproducts">Dairy products</option>
+                </select>
+            </div>
+        </div>
+        <label class="sr-only" for="ex-email">Due Date</label>
+        <input class="form-control mb-2 mr-sm-2 mb-sm-0" id="ex-email" type="date"  name='DueDate'placeholder="Due Date">
+        <button class="btn btn-success" type="submit">Search</button>
+    </form>
+    <table class="table p-5">
+        <thead>
+          <tr>
+            <th scope="col">Product Name</th>
+            <th scope="col">Product Category</th>
+            <th scope="col">Due Date</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% if Product_obj %}
+            {% for product_list in Product_obj %}
+            <tr>
+                <td>{{product_list.ProductName}}</td>
+                <td>{{product_list.ProductCategory}}</td>
+                <td>{{product_list.ProductDueDate}}</td>
+                <td><button class="btn btn-success" type="button"><a href='{% url "UpdateProduct" pk=product_list.id %}'>Edit Product </a></button></td>
+                <td><button  type="button"><a href='{% url "Delete" pk=product_list.id %}'><i class="fa fa-trash-o"></i></a></td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+        </tbody>
+      </table>
+</div>
+{% endblock %}
